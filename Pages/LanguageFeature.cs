@@ -5,9 +5,15 @@ using NUnit.Framework;
 namespace Mars_Language_Skills.Pages
 {
 
-
     public class LanguageFeature
     {
+        private IWebDriver _driver;
+
+        public LanguageFeature(IWebDriver driver)
+        {
+            _driver = driver;
+        }
+
         private readonly By addNewlanButtonLocator = By.XPath("//div[@data-tab='first']//div[@class='ui teal button ']");
         IWebElement addNewlanButton;
 
@@ -19,7 +25,7 @@ namespace Mars_Language_Skills.Pages
 
 
 
-        public void AddLanguages(IWebDriver driver)
+        public void AddLanguages()
         {
             string[] languages = { "English", "French", "Hindi", "Gujarati" };
             string[] langlevels = { "Fluent", "Basic", "Fluent", "Native/Bilingual" };
@@ -31,7 +37,7 @@ namespace Mars_Language_Skills.Pages
 
 
 
-                addNewlanButton = driver.FindElement(addNewlanButtonLocator);
+                addNewlanButton = _driver.FindElement(addNewlanButtonLocator);
                 addNewlanButton.Click();
 
                 Thread.Sleep(3000);
@@ -40,13 +46,13 @@ namespace Mars_Language_Skills.Pages
 
 
 
-                inputElement = driver.FindElement(inputElementLocator);
+                inputElement = _driver.FindElement(inputElementLocator);
                 inputElement.SendKeys(languages[i]);
 
 
                 // Find the dropdown element and select the appropriate level
 
-                SelectElement levelDropdown = new SelectElement(driver.FindElement(By.XPath("//select[@class='ui dropdown'][@name=\"level\"]")));
+                SelectElement levelDropdown = new SelectElement(_driver.FindElement(By.XPath("//select[@class='ui dropdown'][@name=\"level\"]")));
                 levelDropdown.SelectByText(langlevels[i]);
 
 
@@ -55,7 +61,7 @@ namespace Mars_Language_Skills.Pages
                 // Click the "Add" button
 
 
-                addlan = driver.FindElement(addlanLocator);
+                addlan = _driver.FindElement(addlanLocator);
                 addlan.Click();
                 Thread.Sleep(3000);
 
@@ -64,7 +70,7 @@ namespace Mars_Language_Skills.Pages
 
         }
 
-        public void VerifyLanguagesAdded(IWebDriver driver)
+        public void VerifyLanguagesAdded()
         {
             Thread.Sleep(3000);
             // XPaths to locate language and level elements
@@ -72,8 +78,8 @@ namespace Mars_Language_Skills.Pages
             string levelXPath = "//table[@class='ui fixed table']/tbody/tr/td[2]";
 
             // Find the elements containing languages and levels
-            var languageElements = driver.FindElements(By.XPath(languageXPath));
-            var levelElements = driver.FindElements(By.XPath(levelXPath));
+            var languageElements = _driver.FindElements(By.XPath(languageXPath));
+            var levelElements = _driver.FindElements(By.XPath(levelXPath));
 
             // Store the languages and levels in lists
             List<string> addedLanguages = new List<string>();
@@ -106,7 +112,10 @@ namespace Mars_Language_Skills.Pages
 
         private readonly By addUpdatedLocator = By.XPath("//input[@class='ui teal button'][@value='Update']");
         IWebElement addUpdated;
-        public void EditLanguages(IWebDriver driver)
+        private object language;
+        private double expectedLevel;
+
+        public void EditLanguages()
         {
             Thread.Sleep(5000);
             string languageToEdit = "English";
@@ -116,7 +125,7 @@ namespace Mars_Language_Skills.Pages
 
             // Create the XPath selector based on the language value
             string xpath = $"//tbody/tr[td[text()='{languageToEdit}']]/td[@class='right aligned']/span[@class='button']/i[contains(@class, 'outline write icon')]";
-            IWebElement editlan = driver.FindElement(By.XPath(xpath));
+            IWebElement editlan = _driver.FindElement(By.XPath(xpath));
 
             Console.WriteLine("editlanguage", editlan);
 
@@ -124,7 +133,7 @@ namespace Mars_Language_Skills.Pages
             editlan.Click();
 
             // Find the dropdown element and select the new level
-            SelectElement levelDropdown = new SelectElement(driver.FindElement(By.XPath("//select[@class='ui dropdown']")));
+            SelectElement levelDropdown = new SelectElement(_driver.FindElement(By.XPath("//select[@class='ui dropdown']")));
 
             levelDropdown.SelectByText(newLevel);
 
@@ -132,7 +141,7 @@ namespace Mars_Language_Skills.Pages
 
 
 
-            addUpdated = driver.FindElement(addUpdatedLocator);
+            addUpdated = _driver.FindElement(addUpdatedLocator);
             addUpdated.Click();
             Thread.Sleep(3000);
 
@@ -142,11 +151,11 @@ namespace Mars_Language_Skills.Pages
 
 
 
-        public void VerifyLanguageLeveleditted(IWebDriver driver, string language, string expectedLevel)
+        public void VerifyLanguageLeveleditted(string language, string expectedLevel)
         {
             // Create the XPath to find the language row
             string xpath = $"//tbody/tr[td[text()='{language}']]/td[2]";
-            IWebElement levelElement = driver.FindElement(By.XPath(xpath));
+            IWebElement levelElement = _driver.FindElement(By.XPath(xpath));
 
             // Get the actual level text
             string actualLevel = levelElement.Text;
@@ -157,7 +166,7 @@ namespace Mars_Language_Skills.Pages
         }
 
 
-        public void DeleteLanguages(IWebDriver driver)
+        public void DeleteLanguages()
         {
             Thread.Sleep(5000);
 
@@ -166,26 +175,25 @@ namespace Mars_Language_Skills.Pages
             // Find the language input element and get its value
             string xpath = $"//tbody/tr[td[text()='{languagetoDelete}']]/td[@class='right aligned']/span[@class='button']/i[contains(@class, 'remove icon')]";
 
-            IWebElement languageDeleteBtn = driver.FindElement(By.XPath(xpath));
+            IWebElement languageDeleteBtn = _driver.FindElement(By.XPath(xpath));
             languageDeleteBtn.Click();
 
             Thread.Sleep(3000);
 
         }
 
-        public void VerifyLanguageDeleted(IWebDriver driver, string language)
+        public void VerifyLanguageDeleted(string language)
         {
             Thread.Sleep(5000);
             // Create the XPath to find the language row
             string xpath = $"//tbody/tr[td[text()='{language}']]";
-            var languageElements = driver.FindElements(By.XPath(xpath));
+            var languageElements = _driver.FindElements(By.XPath(xpath));
             // Verify that no elements are found for the deleted language
             Assert.IsTrue(languageElements.Count == 0, $"Language '{language}' was not deleted successfully.");
             Thread.Sleep(5000);
         }
 
-
-
+     
     }
 
 }

@@ -6,6 +6,14 @@ namespace Mars_Language_Skills.Pages
 {
     public class SkillFeature
     {
+
+        private IWebDriver _driver;
+
+        public SkillFeature(IWebDriver driver)
+        {
+            _driver = driver;
+        }
+
         private readonly By skillsButtonLocator = By.XPath("//a[contains(.,'Skills')][@data-tab=\"second\"]");
         IWebElement skillsButton;
 
@@ -20,13 +28,13 @@ namespace Mars_Language_Skills.Pages
         IWebElement addSkill;
 
 
-        public void AddSkills(IWebDriver driver)
+        public void AddSkills()
         {
             //After navigating to profile page click on skills
 
 
             Thread.Sleep(5000);
-            skillsButton = driver.FindElement(skillsButtonLocator);
+            skillsButton = _driver.FindElement(skillsButtonLocator);
             skillsButton.Click();
 
             //In skills click on AddNew cell
@@ -41,7 +49,7 @@ namespace Mars_Language_Skills.Pages
             {
                 Thread.Sleep(3000);
 
-                addNewskillButton = driver.FindElement(addNewskillButtonLocator);
+                addNewskillButton = _driver.FindElement(addNewskillButtonLocator);
                 addNewskillButton.Click();
 
 
@@ -50,19 +58,19 @@ namespace Mars_Language_Skills.Pages
                 // Find the skill input element and enter the value
 
 
-                inputSkill = driver.FindElement(inputSkillLocator);
+                inputSkill = _driver.FindElement(inputSkillLocator);
                 inputSkill.SendKeys(skills[i]);
                 Thread.Sleep(3000);
 
                 // Find the dropdown element and select the appropriate level
-                SelectElement skLevelDropdown = new SelectElement(driver.FindElement(By.XPath("//select[@class=\"ui fluid dropdown\"][@name=\"level\"]")));
+                SelectElement skLevelDropdown = new SelectElement(_driver.FindElement(By.XPath("//select[@class=\"ui fluid dropdown\"][@name=\"level\"]")));
                 skLevelDropdown.SelectByText(sklevels[i]);
 
 
                 // Click the "Add" button
 
 
-                addSkill = driver.FindElement(addSkillLocator);
+                addSkill = _driver.FindElement(addSkillLocator);
                 addSkill.Click();
                 Thread.Sleep(5000);
 
@@ -70,9 +78,9 @@ namespace Mars_Language_Skills.Pages
 
         }
 
-        public void VerifySkillsAdded(IWebDriver driver)
+        public void VerifySkillsAdded()
         {
-            skillsButton = driver.FindElement(skillsButtonLocator);
+            skillsButton = _driver.FindElement(skillsButtonLocator);
             skillsButton.Click();
             Thread.Sleep(3000);
             // XPaths to locate skill and level elements
@@ -83,8 +91,8 @@ namespace Mars_Language_Skills.Pages
             string levelXPath = "//div[@data-tab='second']/div[@class='row']/div[@class='twelve wide column scrollTable']/div[@class='form-wrapper']/table[@class='ui fixed table']/tbody/tr/td[2]";
 
             // Find the elements containing skills and levels
-            var skillElements = driver.FindElements(By.XPath(skillXPath));
-            var levelElements = driver.FindElements(By.XPath(levelXPath));
+            var skillElements = _driver.FindElements(By.XPath(skillXPath));
+            var levelElements = _driver.FindElements(By.XPath(levelXPath));
 
             // Store the skills and levels in lists
             List<string> addedSkills = new List<string>();
@@ -121,10 +129,10 @@ namespace Mars_Language_Skills.Pages
 
         private readonly By addSkillupdatedLocator = By.XPath("//input[@class='ui teal button'][@value='Update']");
         IWebElement addSkillupdated;
-        public void EditSkills(IWebDriver driver)
+        public void EditSkills()
         {
             //Edit the Skills
-            skillsButton = driver.FindElement(skillsButtonLocator);
+            skillsButton = _driver.FindElement(skillsButtonLocator);
             skillsButton.Click();
             Thread.Sleep(3000);
 
@@ -132,39 +140,39 @@ namespace Mars_Language_Skills.Pages
             string newSkill = "Painting";
             string newLevel = "Intermediate";
             string xpathWriteIcon = $"//tbody/tr[td[text()='{skillToEdit}']]/td[@class='right aligned']/span[@class='button']/i[contains(@class, 'outline write icon')]";
-            IWebElement editSkill = driver.FindElement(By.XPath(xpathWriteIcon));
+            IWebElement editSkill = _driver.FindElement(By.XPath(xpathWriteIcon));
             editSkill.Click();
 
             Thread.Sleep(5000);
 
-            IWebElement skillInput = driver.FindElement(By.XPath("//input[@type=\"text\"][@placeholder=\"Add Skill\"][@value=\"Sketching\"]"));
+            IWebElement skillInput = _driver.FindElement(By.XPath("//input[@type=\"text\"][@placeholder=\"Add Skill\"][@value=\"Sketching\"]"));
 
             skillInput.Clear();
             skillInput.SendKeys(newSkill);
 
             // Change the level value
-            SelectElement levelDropdown = new SelectElement(driver.FindElement(By.XPath("//select[@class=\"ui fluid dropdown\"][@name=\"level\"]")));
+            SelectElement levelDropdown = new SelectElement(_driver.FindElement(By.XPath("//select[@class=\"ui fluid dropdown\"][@name=\"level\"]")));
             levelDropdown.SelectByText(newLevel);
 
             // Click the update button 
 
 
-            addSkillupdated = driver.FindElement(addSkillupdatedLocator);
+            addSkillupdated = _driver.FindElement(addSkillupdatedLocator);
             addSkillupdated.Click();
             Thread.Sleep(3000);
 
         }
 
-        public void VerifySkillEdited(IWebDriver driver, string expectedSkill)
+        public void VerifySkillEdited(string expectedSkill)
         {
-            skillsButton = driver.FindElement(skillsButtonLocator);
+            skillsButton = _driver.FindElement(skillsButtonLocator);
             skillsButton.Click();
 
             Thread.Sleep(5000);
 
             // Create the XPath to find the skill row
             string xpath = $"//tbody/tr[td[text()='{expectedSkill}']]/td[1]";
-            IWebElement levelElement = driver.FindElement(By.XPath(xpath));
+            IWebElement levelElement = _driver.FindElement(By.XPath(xpath));
 
             // Get the actual level text
             string actualSkill = levelElement.Text;
@@ -178,9 +186,9 @@ namespace Mars_Language_Skills.Pages
 
 
 
-        public void DeleteSkills(IWebDriver driver)
+        public void DeleteSkills()
         {
-            skillsButton = driver.FindElement(skillsButtonLocator);
+            skillsButton = _driver.FindElement(skillsButtonLocator);
             skillsButton.Click();
             Thread.Sleep(5000);
             {
@@ -191,7 +199,7 @@ namespace Mars_Language_Skills.Pages
 
                 string xpathRemoveIcon = $"//tbody/tr[td[text()='{skillToDelete}']]/td[@class='right aligned']/span[@class='button']/i[contains(@class, 'remove icon')]";
 
-                IWebElement skillDeleteBtn = driver.FindElement(By.XPath(xpathRemoveIcon));
+                IWebElement skillDeleteBtn = _driver.FindElement(By.XPath(xpathRemoveIcon));
                 skillDeleteBtn.Click();
                 Thread.Sleep(5000);
 
@@ -199,12 +207,12 @@ namespace Mars_Language_Skills.Pages
 
         }
 
-        public void VerifySkillDeleted(IWebDriver driver, string skill)
+        public void VerifySkillDeleted(string skill)
         {
             Thread.Sleep(5000);
             // Create the XPath to find the skill row
             string xpath = $"//tbody/tr[td[text()='{skill}']]";
-            var skillElements = driver.FindElements(By.XPath(xpath));
+            var skillElements = _driver.FindElements(By.XPath(xpath));
             // Verify that no elements are found for the deleted skill
             Assert.IsTrue(skillElements.Count == 0, $"Skill '{skill}' was not deleted successfully.");
             Thread.Sleep(5000);

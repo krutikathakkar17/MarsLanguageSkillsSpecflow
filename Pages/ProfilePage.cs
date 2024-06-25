@@ -10,10 +10,16 @@ namespace MarsLanguageSkillsSpecflow.Pages
 {
     public class ProfilePage
     {
-        public void VerifyLoggedinUser(IWebDriver driver)
+        private IWebDriver _driver;
+
+        public ProfilePage(IWebDriver driver)
+        {
+            _driver = driver;
+        }
+        public void VerifyLoggedinUser()
         {
             //Verify whether user has loggedin or not
-            IWebElement hiKrutikalink = driver.FindElement(By.XPath("/html/body/div[1]/div/div[1]/div[2]/div/span"));
+            IWebElement hiKrutikalink = _driver.FindElement(By.XPath("/html/body/div[1]/div/div[1]/div[2]/div/span"));
 
             if (hiKrutikalink.Text == "Hi Krutika")
              {

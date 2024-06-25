@@ -9,6 +9,12 @@ namespace MarsLanguageSkillsSpecflow.Pages
 {
     public class LoginPage
     {
+        private IWebDriver _driver;
+
+        public LoginPage(IWebDriver driver)
+        {
+            _driver = driver;
+        }
 
         private readonly By signinButtonLocator = By.XPath("//A[@class='item'][text()='Sign In']");
         IWebElement signinButton;
@@ -18,26 +24,26 @@ namespace MarsLanguageSkillsSpecflow.Pages
         IWebElement passwordtextBox;
         private readonly By loginButtonLocator = By.XPath("//BUTTON[@class='fluid ui teal button'][text()='Login']");
         IWebElement loginButton;
-        public void LoginActions(IWebDriver driver, string username, string password)
+        public void LoginActions(string username, string password)
         {
-            driver.Manage().Window.Maximize();
+            _driver.Navigate().GoToUrl("http://localhost:5000/");
+            // //http://localhost:5000/Home
 
-            driver.Navigate().GoToUrl("http://localhost:5000/");
-           // //http://localhost:5000/Home
+            _driver.Manage().Window.Maximize();
 
             //SignIn into Mars portal
-            signinButton = driver.FindElement(signinButtonLocator);
+            signinButton = _driver.FindElement(signinButtonLocator);
             signinButton.Click();
 
             //Enter login credentials, emailid & password
-            usernametextBox = driver.FindElement(usernametextBoxLocator);
+            usernametextBox = _driver.FindElement(usernametextBoxLocator);
             usernametextBox.SendKeys(username);
 
-            passwordtextBox = driver.FindElement(passwordtextBoxLocator);
+            passwordtextBox = _driver.FindElement(passwordtextBoxLocator);
             passwordtextBox.SendKeys(password);
 
             //Click on LoginButton
-            loginButton = driver.FindElement(loginButtonLocator);
+            loginButton = _driver.FindElement(loginButtonLocator);
             loginButton.Click();
             Thread.Sleep(5000);
         }
