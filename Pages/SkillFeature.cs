@@ -27,108 +27,243 @@ namespace Mars_Language_Skills.Pages
         private readonly By addSkillLocator = By.XPath("//input[@value=\"Add\"][@class='ui teal button ']");
         IWebElement addSkill;
 
-
-        public void AddSkills()
+        
+        public void AddSkills(String skill, String sklevel)
         {
-            //After navigating to profile page click on skills
-
-
-            Thread.Sleep(5000);
             skillsButton = _driver.FindElement(skillsButtonLocator);
             skillsButton.Click();
 
-            //In skills click on AddNew cell
+            addNewskillButton = _driver.FindElement(addNewskillButtonLocator);
+            addNewskillButton.Click();
+
+            string skillPopupXPath = "//div[@class='ns-box-inner']";
+            string expectedMessage = $"{skill} has been added to your skills";
+
+            Thread.Sleep(3000);
+
+            // Find the language input element and enter the value
+            inputSkill = _driver.FindElement(inputSkillLocator);
+            inputSkill.SendKeys(skill);
+
+            // Find the dropdown element and select the appropriate level
+
+            SelectElement skLevelDropdown = new SelectElement(_driver.FindElement(By.XPath("//select[@class=\"ui fluid dropdown\"][@name=\"level\"]")));
+            skLevelDropdown.SelectByText(sklevel);
+
+            Thread.Sleep(7000);
+
+            // Click the "Add" button
+            addSkill = _driver.FindElement(addSkillLocator);
+            addSkill.Click();
+            Thread.Sleep(1000);
+            var popupElement = _driver.FindElement(By.XPath(skillPopupXPath));
+            string popupText = popupElement.Text;
+            Assert.AreEqual(expectedMessage, popupText, $"Pop-up message mismatch. Expected: '{expectedMessage}', but got: '{popupText}'");
+            Thread.Sleep(5000);
+
+        }
+        /*
+        //After navigating to profile page click on skills
+
+        Thread.Sleep(5000);
+        skillsButton = _driver.FindElement(skillsButtonLocator);
+        skillsButton.Click();
+
+        //In skills click on AddNew cell
 
 
-            // Skills and it's levels
-            string[] skills = { "Cooking", "Speaking", "Sketching", "Dancing", "Singing", "Management" };
-            string[] sklevels = { "Expert", "Expert", "Intermediate", "Expert", "Expert", "Expert" };
+        // Skills and it's levels
+        string[] skills = { "Cooking", "Speaking", "Sketching", "Dancing", "Singing", "Management" };
+        string[] sklevels = { "Expert", "Expert", "Intermediate", "Expert", "Expert", "Expert" };
 
-            // Loop to add languages and levels
-            for (int i = 0; i < skills.Length; i++)
+        // Loop to add languages and levels
+        for (int i = 0; i < skills.Length; i++)
+        {
+            Thread.Sleep(3000);
+
+            addNewskillButton = _driver.FindElement(addNewskillButtonLocator);
+            addNewskillButton.Click();
+
+            Thread.Sleep(3000);
+
+            // Find the skill input element and enter the value
+
+            inputSkill = _driver.FindElement(inputSkillLocator);
+            inputSkill.SendKeys(skills[i]);
+            Thread.Sleep(3000);
+
+            // Find the dropdown element and select the appropriate level
+            SelectElement skLevelDropdown = new SelectElement(_driver.FindElement(By.XPath("//select[@class=\"ui fluid dropdown\"][@name=\"level\"]")));
+            skLevelDropdown.SelectByText(sklevels[i]);
+
+            // Click the "Add" button
+
+            addSkill = _driver.FindElement(addSkillLocator);
+            addSkill.Click();
+            Thread.Sleep(5000);
+
+        }*/
+
+
+        
+
+        public void VerifySkillsAdded(string expectedSkill, string expectedLevel)
+        {
+            Thread.Sleep(5000);
+
+            // XPath to locate all rows in the skill table
+            //  string skillXPath = "//table[@class='ui fixed table']/tbody/tr/td[1]";
+            //  var rows = _driver.FindElements(By.XPath(skillXPath));
+
+            // string skillXPath = "//div[@data-tab='second']/div[@class='row']/div[@class='twelve wide column scrollTable']/div[@class='form-wrapper']/table[@class='ui fixed table']/tbody/tr/td[1]";
+
+            // string levelXPath = "//div[@data-tab='second']/div[@class='row']/div[@class='twelve wide column scrollTable']/div[@class='form-wrapper']/table[@class='ui fixed table']/tbody/tr/td[2]";
+
+            string rowXPath = "//div[@data-tab='second']/div[@class='row']/div[@class='twelve wide column scrollTable']/div[@class='form-wrapper']/table[@class='ui fixed table']/tbody/tr";
+
+
+            Thread.Sleep(3000);
+
+            var rows = _driver.FindElements(By.XPath(rowXPath));
+
+
+            bool found = false;
+
+            foreach (var row in rows)
             {
-                Thread.Sleep(3000);
+                var skillElement = row.FindElement(By.XPath("./td[1]"));
+                var levelElement = row.FindElement(By.XPath("./td[2]"));
 
-                addNewskillButton = _driver.FindElement(addNewskillButtonLocator);
-                addNewskillButton.Click();
+                //var skillElement = _driver.FindElement(By.XPath(skillXPath));
+                //var levelElement = _driver.FindElement(By.XPath(levelXPath));
 
+                if (skillElement.Text == expectedSkill && levelElement.Text == expectedLevel)
+                {
+                    found = true;
+                    break;
+                }
+            }
 
-                Thread.Sleep(3000);
+            Assert.IsTrue(found, $"Skill '{expectedSkill}' with level '{expectedLevel}' not found.");
+        }
 
-                // Find the skill input element and enter the value
+        
+      /*  public void AddDuplicateSkill(String skill, String sklevel)
+        {
+            Thread.Sleep(3000);
 
+            skillsButton = _driver.FindElement(skillsButtonLocator);
+            skillsButton.Click();
 
-                inputSkill = _driver.FindElement(inputSkillLocator);
-                inputSkill.SendKeys(skills[i]);
-                Thread.Sleep(3000);
+            addNewskillButton = _driver.FindElement(addNewskillButtonLocator);
+            addNewskillButton.Click();
 
-                // Find the dropdown element and select the appropriate level
-                SelectElement skLevelDropdown = new SelectElement(_driver.FindElement(By.XPath("//select[@class=\"ui fluid dropdown\"][@name=\"level\"]")));
-                skLevelDropdown.SelectByText(sklevels[i]);
+            inputSkill = _driver.FindElement(inputSkillLocator);
+            inputSkill.SendKeys(skill);
 
+            SelectElement skLevelDropdown = new SelectElement(_driver.FindElement(By.XPath("//select[@class=\"ui fluid dropdown\"][@name=\"level\"]")));
+            skLevelDropdown.SelectByText(sklevel);
 
-                // Click the "Add" button
+            addSkill = _driver.FindElement(addSkillLocator);
+            addSkill.Click();
+            Thread.Sleep(5000);
 
+        }
 
-                addSkill = _driver.FindElement(addSkillLocator);
-                addSkill.Click();
+        
+        public void VerifyNoDuplicateSkillAdded()
+        {
+            {
+                
+
+                string popupXPath = "//div[contains(@class, 'ns-box') and contains(@class, 'ns-growl') and contains(@class, 'ns-effect-jelly') and contains(@class, 'ns-type-error') and contains(@class, 'ns-show')]";
+                string expectedMessage = "This skill is already exist in your skill list.";
+
+                Thread.Sleep(1000);
+
+                var popupElement = _driver.FindElement(By.XPath(popupXPath));
+                string popupText = popupElement.Text;
+
+                Assert.AreEqual(expectedMessage, popupText, $"Pop-up message mismatch. Expected: '{expectedMessage}', but got: '{popupText}'");
                 Thread.Sleep(5000);
 
-            }
 
+                // string xpathCancelIcon = "//input[@value=\"Cancel\"][@class='ui button ']" ;
+
+                // IWebElement skillCancelBtn = _driver.FindElement(By.XPath(xpathCancelIcon));
+
+            }
         }
 
-        public void VerifySkillsAdded()
-        {
-            skillsButton = _driver.FindElement(skillsButtonLocator);
-            skillsButton.Click();
-            Thread.Sleep(3000);
-            // XPaths to locate skill and level elements
-            //string skillXPath = "//table[@class='ui fixed table']/tbody/tr/td[1]";
-            // string skillXPath = "//div[@data-tab='second']/div[@class='form-wrapper']/table[@class='ui fixed table']/tbody/tr/td[1]";
-            string skillXPath = "//div[@data-tab='second']/div[@class='row']/div[@class='twelve wide column scrollTable']/div[@class='form-wrapper']/table[@class='ui fixed table']/tbody/tr/td[1]";
+         public void CancelDuplicateEntry()
+         {
+             string xpathCancelIcon = "//input[@class='ui button'][@value='Cancel']";
+             IWebElement skillCancelBtn = _driver.FindElement(By.XPath(xpathCancelIcon));
+             
+         } /*
 
-            string levelXPath = "//div[@data-tab='second']/div[@class='row']/div[@class='twelve wide column scrollTable']/div[@class='form-wrapper']/table[@class='ui fixed table']/tbody/tr/td[2]";
 
-            // Find the elements containing skills and levels
-            var skillElements = _driver.FindElements(By.XPath(skillXPath));
-            var levelElements = _driver.FindElements(By.XPath(levelXPath));
 
-            // Store the skills and levels in lists
-            List<string> addedSkills = new List<string>();
-            List<string> addedSkillLevels = new List<string>();
 
-            // Extract text from each skill element
-            foreach (var element in skillElements)
-            {
-                addedSkills.Add(element.Text);
-            }
 
-            // Extract text from each level element
-            foreach (var element in levelElements)
-            {
-                addedSkillLevels.Add(element.Text);
-            }
 
-            // Expected skills and levels for verification
-            string[] expectedSkills = { "Cooking", "Speaking", "Sketching", "Dancing", "Singing", "Management" };
-            string[] expectedSkillLevels = { "Expert", "Expert", "Intermediate", "Expert", "Expert", "Expert" };
 
-            // Verify that the number of added skills matches the expected number
-            Assert.AreEqual(expectedSkills.Length, addedSkills.Count, "The number of skills does not match the expected count.");
-            Assert.AreEqual(expectedSkillLevels.Length, addedSkillLevels.Count, "The number of skill levels does not match the expected count.");
 
-            // Verify that the added skills and levels match the expected values
-            for (int i = 0; i < expectedSkills.Length; i++)
-            {
-                Assert.AreEqual(expectedSkills[i], addedSkills[i], $"Skill mismatch at index {i}");
-                Assert.AreEqual(expectedSkillLevels[i], addedSkillLevels[i], $"Skill level mismatch at index {i}");
-            }
-            Thread.Sleep(3000);
-        }
+
+
+
+        /* skillsButton = _driver.FindElement(skillsButtonLocator);
+         skillsButton.Click();
+         Thread.Sleep(3000);
+         // XPaths to locate skill and level elements
+         //string skillXPath = "//table[@class='ui fixed table']/tbody/tr/td[1]";
+         // string skillXPath = "//div[@data-tab='second']/div[@class='form-wrapper']/table[@class='ui fixed table']/tbody/tr/td[1]";
+         string skillXPath = "//div[@data-tab='second']/div[@class='row']/div[@class='twelve wide column scrollTable']/div[@class='form-wrapper']/table[@class='ui fixed table']/tbody/tr/td[1]";
+
+         string levelXPath = "//div[@data-tab='second']/div[@class='row']/div[@class='twelve wide column scrollTable']/div[@class='form-wrapper']/table[@class='ui fixed table']/tbody/tr/td[2]";
+
+         // Find the elements containing skills and levels
+         var skillElements = _driver.FindElements(By.XPath(skillXPath));
+         var levelElements = _driver.FindElements(By.XPath(levelXPath));
+
+         // Store the skills and levels in lists
+         List<string> addedSkills = new List<string>();
+         List<string> addedSkillLevels = new List<string>();
+
+         // Extract text from each skill element
+         foreach (var element in skillElements)
+         {
+             addedSkills.Add(element.Text);
+         }
+
+         // Extract text from each level element
+         foreach (var element in levelElements)
+         {
+             addedSkillLevels.Add(element.Text);
+         }
+
+         // Expected skills and levels for verification
+         string[] expectedSkills = { "Cooking", "Speaking", "Sketching", "Dancing", "Singing", "Management" };
+         string[] expectedSkillLevels = { "Expert", "Expert", "Intermediate", "Expert", "Expert", "Expert" };
+
+         // Verify that the number of added skills matches the expected number
+         Assert.AreEqual(expectedSkills.Length, addedSkills.Count, "The number of skills does not match the expected count.");
+         Assert.AreEqual(expectedSkillLevels.Length, addedSkillLevels.Count, "The number of skill levels does not match the expected count.");
+
+         // Verify that the added skills and levels match the expected values
+         for (int i = 0; i < expectedSkills.Length; i++)
+         {
+             Assert.AreEqual(expectedSkills[i], addedSkills[i], $"Skill mismatch at index {i}");
+             Assert.AreEqual(expectedSkillLevels[i], addedSkillLevels[i], $"Skill level mismatch at index {i}");
+         }
+         Thread.Sleep(3000); */
+
 
         private readonly By addSkillupdatedLocator = By.XPath("//input[@class='ui teal button'][@value='Update']");
         IWebElement addSkillupdated;
+
+        
+
         public void EditSkills()
         {
             //Edit the Skills
@@ -163,6 +298,8 @@ namespace Mars_Language_Skills.Pages
 
         }
 
+        
+
         public void VerifySkillEdited(string expectedSkill)
         {
             skillsButton = _driver.FindElement(skillsButtonLocator);
@@ -186,6 +323,8 @@ namespace Mars_Language_Skills.Pages
 
 
 
+        
+
         public void DeleteSkills()
         {
             skillsButton = _driver.FindElement(skillsButtonLocator);
@@ -206,6 +345,8 @@ namespace Mars_Language_Skills.Pages
             }
 
         }
+
+        
 
         public void VerifySkillDeleted(string skill)
         {

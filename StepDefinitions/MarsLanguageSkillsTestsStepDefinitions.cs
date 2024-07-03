@@ -7,7 +7,7 @@ using OpenQA.Selenium.Chrome;
 namespace MarsLanguageSkillsSpecflow.StepDefinitions
 {
     [Binding]
-    public class MarsLanguageSkillsTestsStepDefinitions 
+    public class MarsLanguageSkillsTestsStepDefinitions
     {
 
         private readonly IWebDriver _commonDriver;
@@ -40,17 +40,34 @@ namespace MarsLanguageSkillsSpecflow.StepDefinitions
 
         }
 
-        [When(@"User adds a language with level  and clicks Add button")]
-        public void WhenUserAddsALanguageWithLevelAndClicksAddButton()
+
+        [When(@"User adds a language ""([^""]*)"" with level ""([^""]*)"" and clicks Add button")]
+        public void WhenUserAddsALanguageWithLevelAndClicksAddButton(string language, string level)
         {
-            _languageFeatureObj.AddLanguages();
+            _languageFeatureObj.AddLanguages(language, level);
         }
 
-        [Then(@"User should see the language  and it's level  added to the profile")]
-        public void ThenUserShouldSeeTheLanguageAndItsLevelAddedToTheProfile()
+        [Then(@"User should see the language ""([^""]*)"" and its level ""([^""]*)"" added to the profile")]
+        public void ThenUserShouldSeeTheLanguageAndItsLevelAddedToTheProfile(string language, string level)
         {
-            _languageFeatureObj.VerifyLanguagesAdded();
+            _languageFeatureObj.VerifyLanguagesAdded(language, level);
+
         }
+
+        [When(@"User adds an empty language with level and clicks Add button")]
+        public void WhenUserAddsAnEmptyLanguageWithLevelAndClicksAddButton()
+        {
+            _languageFeatureObj.AddingEmptyLanguage("Fluent");
+        }
+
+        [Then(@"User should see an error message")]
+        public void ThenUserShouldSeeAnErrorMessage()
+        {
+            _languageFeatureObj.VerifyNoEmptyLanguageAdded();
+           // _languageFeatureObj.CancelEmptyEntry();
+
+        } 
+
 
         [When(@"User edits one of the existing languages")]
         public void WhenUserEditsOneOfTheExistingLanguages()
@@ -58,7 +75,7 @@ namespace MarsLanguageSkillsSpecflow.StepDefinitions
             _languageFeatureObj.EditLanguages();
         }
 
-      
+
 
         [Then(@"Verify edited language record is updated")]
         public void ThenVerifyRecordIsUpdated()
@@ -75,21 +92,53 @@ namespace MarsLanguageSkillsSpecflow.StepDefinitions
         [Then(@"Verify language record is deleted")]
         public void Verifylanguagerecordisdeleted()
         {
-           _languageFeatureObj.VerifyLanguageDeleted("French");
+            _languageFeatureObj.VerifyLanguageDeleted("French");
         }
 
+       /*  [When(@"User deletes the language ""([^""]*)"" and clicks delete button")]
+         public void WhenUserDeletesTheLanguageAndClicksDeleteButton(string language)
+         {
+             _languageFeatureObj.DeleteRestOfLanguages(language);
+         }
 
-        [When(@"User adds a skill with level, and clicks Add button")]
-        public void WhenUserAddsASkillWithLevelAndClicksAddButton()
+         [Then(@"Verifies all language ""([^""]*)"" are deleted")]
+         public void ThenUserVerifiesAllLanguageAreDeleted(string language)
+         {
+              _languageFeatureObj.VerifyAllLanguageDeleted(language);
+         } */
+
+
+
+
+
+        [When(@"User adds a skill ""([^""]*)"" with level ""([^""]*)"", and clicks Add button")]
+        public void WhenUserAddsASkillWithLevelAndClicksAddButton(string skill, string level)
         {
-            _skillFeatureObj.AddSkills();
+            _skillFeatureObj.AddSkills(skill, level);
         }
 
-        [Then(@"User should see the skill and it's level added to the profile")]
-        public void ThenUserShouldSeeTheSkillAndItsLevelAddedToTheProfile()
+        [Then(@"User should see the skill ""([^""]*)"" and it's level ""([^""]*)"" added to the profile")]
+        public void ThenUserShouldSeeTheSkillAndItsLevelAddedToTheProfile(string skill, string level)
         {
-            _skillFeatureObj.VerifySkillsAdded();
+            _skillFeatureObj.VerifySkillsAdded(skill, level);
         }
+
+       /*  [When(@"User adds a duplicate skill with level and clicks Add button")]
+         public void WhenUserAddsADuplicateSkillWithLevelAndClicksAddButton()
+         {
+             _skillFeatureObj.AddDuplicateSkill("Management", "Expert");
+         }
+
+         [Then(@"User should see an error message for duplicate skill")]
+         public void ThenUserShouldSeeAnErrorMessageForDuplicateSkill()
+         {
+             _skillFeatureObj.VerifyNoDuplicateSkillAdded();
+           // _skillFeatureObj.CancelDuplicateEntry();
+        } 
+        
+        */
+
+
 
         [When(@"User edits one of the existing skills")]
         public void WhenUserEditsOneOfTheExistingSkills()

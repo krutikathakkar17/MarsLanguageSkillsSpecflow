@@ -75,15 +75,18 @@ namespace MarsLanguageSkillsSpecflow.Features
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Verify user is able to add language and it\'s level")]
-        [NUnit.Framework.CategoryAttribute("tag1")]
-        public virtual void VerifyUserIsAbleToAddLanguageAndItsLevel()
+        [NUnit.Framework.DescriptionAttribute("Add a language and level to the profile")]
+        [NUnit.Framework.TestCaseAttribute("English", "Fluent", null)]
+        [NUnit.Framework.TestCaseAttribute("French", "Basic", null)]
+        [NUnit.Framework.TestCaseAttribute("Hindi", "Native/Bilingual", null)]
+        public virtual void AddALanguageAndLevelToTheProfile(string language, string level, string[] exampleTags)
         {
-            string[] tagsOfScenario = new string[] {
-                    "tag1"};
+            string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Verify user is able to add language and it\'s level", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 6
+            argumentsOfScenario.Add("Language", language);
+            argumentsOfScenario.Add("Level", level);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add a language and level to the profile", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 5
  this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -103,17 +106,57 @@ namespace MarsLanguageSkillsSpecflow.Features
             else
             {
                 this.ScenarioStart();
+#line 6
+    testRunner.Given("User logs in Mars portal", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
 #line 7
- testRunner.Given("User logs in Mars portal", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+    testRunner.When("User navigates to profile page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 8
- testRunner.When("User navigates to profile page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+    testRunner.And(string.Format("User adds a language \"{0}\" with level \"{1}\" and clicks Add button", language, level), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 9
- testRunner.And("User adds a language with level  and clicks Add button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+    testRunner.Then(string.Format("User should see the language \"{0}\" and its level \"{1}\" added to the profile", language, level), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 10
- testRunner.Then("User should see the language  and it\'s level  added to the profile", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Adding a language with an empty name")]
+        public virtual void AddingALanguageWithAnEmptyName()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Adding a language with an empty name", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 18
+  this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 19
+  testRunner.Given("User logs in Mars portal", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 20
+  testRunner.When("User adds an empty language with level and clicks Add button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 21
+  testRunner.Then("User should see an error message", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -126,7 +169,7 @@ namespace MarsLanguageSkillsSpecflow.Features
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Verify user is able to edit language record", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 12
+#line 27
  this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -146,13 +189,13 @@ namespace MarsLanguageSkillsSpecflow.Features
             else
             {
                 this.ScenarioStart();
-#line 13
+#line 28
  testRunner.Given("User logs in Mars portal", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 14
+#line 29
  testRunner.When("User edits one of the existing languages", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 15
+#line 30
  testRunner.Then("Verify edited language record is updated", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -166,7 +209,7 @@ namespace MarsLanguageSkillsSpecflow.Features
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Verify user is able to delete language record", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 17
+#line 32
  this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -186,13 +229,13 @@ namespace MarsLanguageSkillsSpecflow.Features
             else
             {
                 this.ScenarioStart();
-#line 18
+#line 33
  testRunner.Given("User logs in Mars portal", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 19
+#line 34
  testRunner.When("User deletes one of the existing languages", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 20
+#line 35
  testRunner.Then("Verify language record is deleted", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -201,12 +244,20 @@ namespace MarsLanguageSkillsSpecflow.Features
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Verify user is able to add Skill and it\'s level")]
-        public virtual void VerifyUserIsAbleToAddSkillAndItsLevel()
+        [NUnit.Framework.TestCaseAttribute("Cooking", "Expert", null)]
+        [NUnit.Framework.TestCaseAttribute("Speaking", "Expert", null)]
+        [NUnit.Framework.TestCaseAttribute("Sketching", "Intermediate", null)]
+        [NUnit.Framework.TestCaseAttribute("Dancing", "Expert", null)]
+        [NUnit.Framework.TestCaseAttribute("Singing", "Expert", null)]
+        [NUnit.Framework.TestCaseAttribute("Management", "Expert", null)]
+        public virtual void VerifyUserIsAbleToAddSkillAndItsLevel(string skill, string level, string[] exampleTags)
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("Skill", skill);
+            argumentsOfScenario.Add("Level", level);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Verify user is able to add Skill and it\'s level", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 22
+#line 37
  this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -226,17 +277,57 @@ namespace MarsLanguageSkillsSpecflow.Features
             else
             {
                 this.ScenarioStart();
-#line 23
+#line 38
  testRunner.Given("User logs in Mars portal", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 24
+#line 39
  testRunner.When("User navigates to profile page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 25
- testRunner.And("User adds a skill with level, and clicks Add button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 40
+ testRunner.And(string.Format("User adds a skill \"{0}\" with level \"{1}\", and clicks Add button", skill, level), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 26
- testRunner.Then("User should see the skill and it\'s level added to the profile", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 41
+ testRunner.Then(string.Format("User should see the skill \"{0}\" and it\'s level \"{1}\" added to the profile", skill, level), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Adding a duplicate skill")]
+        public virtual void AddingADuplicateSkill()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Adding a duplicate skill", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 53
+  this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 54
+     testRunner.Given("User logs in Mars portal", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 55
+     testRunner.When("User adds a duplicate skill with level and clicks Add button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 56
+     testRunner.Then("User should see an error message for duplicate skill", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -249,7 +340,7 @@ namespace MarsLanguageSkillsSpecflow.Features
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Verify user is able to edit skill record", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 28
+#line 60
  this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -269,13 +360,13 @@ namespace MarsLanguageSkillsSpecflow.Features
             else
             {
                 this.ScenarioStart();
-#line 29
+#line 61
  testRunner.Given("User logs in Mars portal", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 30
+#line 62
  testRunner.When("User edits one of the existing skills", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 31
+#line 63
  testRunner.Then("Verify edited skill record is updated", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -289,7 +380,7 @@ namespace MarsLanguageSkillsSpecflow.Features
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Verify user is able to delete skill record", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 33
+#line 65
  this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -309,13 +400,13 @@ namespace MarsLanguageSkillsSpecflow.Features
             else
             {
                 this.ScenarioStart();
-#line 34
+#line 66
  testRunner.Given("User logs in Mars portal", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 35
+#line 67
  testRunner.When("User deletes one of the existing skills", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 36
+#line 68
  testRunner.Then("Verify skill record is deleted", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
