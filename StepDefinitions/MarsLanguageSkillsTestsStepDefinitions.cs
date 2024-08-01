@@ -26,18 +26,12 @@ namespace MarsLanguageSkillsSpecflow.StepDefinitions
 
         }
 
-        [Given(@"User logs in Mars portal")]
-        public void GivenUserLogsInMarsPortal()
+
+        [Given(@"User logs in Mars portal and navigates to profile page")]
+        public void GivenUserLogsInMarsPortalAndNavigatesToProfilePage()
         {
             _loginPageObj.LoginActions("krits17.kt@gmail.com", "Singapore_24");
-
-        }
-
-        [When(@"User navigates to profile page")]
-        public void WhenUserNavigatesToProfilePage()
-        {
             _profilePageObj.VerifyLoggedinUser();
-
         }
 
 
@@ -64,23 +58,20 @@ namespace MarsLanguageSkillsSpecflow.StepDefinitions
         public void ThenUserShouldSeeAnErrorMessage()
         {
             _languageFeatureObj.VerifyNoEmptyLanguageAdded();
-           // _languageFeatureObj.CancelEmptyEntry();
 
         } 
 
-
-        [When(@"User edits one of the existing languages")]
-        public void WhenUserEditsOneOfTheExistingLanguages()
+        [When(@"User edits one of the existing languages ""([^""]*)""")]
+        public void WhenUserEditsOneOfTheExistingLanguages(String level)
         {
-            _languageFeatureObj.EditLanguages();
+            _languageFeatureObj.EditLanguages(level);
         }
-
 
 
         [Then(@"Verify edited language record is updated")]
         public void ThenVerifyRecordIsUpdated()
         {
-            _languageFeatureObj.VerifyLanguageLeveleditted("English", "Native/Bilingual");
+            _languageFeatureObj.VerifyLanguageLeveleditted("Fluent", "Native/Bilingual");
         }
 
         [When(@"User deletes one of the existing languages")]
@@ -92,23 +83,8 @@ namespace MarsLanguageSkillsSpecflow.StepDefinitions
         [Then(@"Verify language record is deleted")]
         public void Verifylanguagerecordisdeleted()
         {
-            _languageFeatureObj.VerifyLanguageDeleted("French");
+            _languageFeatureObj.VerifyLanguageDeleted("English");
         }
-
-       /*  [When(@"User deletes the language ""([^""]*)"" and clicks delete button")]
-         public void WhenUserDeletesTheLanguageAndClicksDeleteButton(string language)
-         {
-             _languageFeatureObj.DeleteRestOfLanguages(language);
-         }
-
-         [Then(@"Verifies all language ""([^""]*)"" are deleted")]
-         public void ThenUserVerifiesAllLanguageAreDeleted(string language)
-         {
-              _languageFeatureObj.VerifyAllLanguageDeleted(language);
-         } */
-
-
-
 
 
         [When(@"User adds a skill ""([^""]*)"" with level ""([^""]*)"", and clicks Add button")]
@@ -123,33 +99,31 @@ namespace MarsLanguageSkillsSpecflow.StepDefinitions
             _skillFeatureObj.VerifySkillsAdded(skill, level);
         }
 
-       /*  [When(@"User adds a duplicate skill with level and clicks Add button")]
+         [When(@"User adds a duplicate skill with level and clicks Add button")]
          public void WhenUserAddsADuplicateSkillWithLevelAndClicksAddButton()
          {
-             _skillFeatureObj.AddDuplicateSkill("Management", "Expert");
+             _skillFeatureObj.AddDuplicateSkill("Cooking", "Expert");
          }
 
          [Then(@"User should see an error message for duplicate skill")]
          public void ThenUserShouldSeeAnErrorMessageForDuplicateSkill()
          {
              _skillFeatureObj.VerifyNoDuplicateSkillAdded();
-           // _skillFeatureObj.CancelDuplicateEntry();
+           
         } 
         
-        */
 
-
-
-        [When(@"User edits one of the existing skills")]
-        public void WhenUserEditsOneOfTheExistingSkills()
+        [When(@"User edits one of the existing skills ""([^""]*)""")]
+        public void WhenUserEditsOneOfTheExistingSkills(string level)
         {
-            _skillFeatureObj.EditSkills();
+            _skillFeatureObj.EditSkills(level);
         }
+
 
         [Then(@"Verify edited skill record is updated")]
         public void ThenVerifyrecordisupdated()
         {
-            _skillFeatureObj.VerifySkillEdited("Painting"); 
+            _skillFeatureObj.VerifySkillEdited("Expert", "Intermediate"); 
         }
 
         [When(@"User deletes one of the existing skills")]
@@ -161,7 +135,7 @@ namespace MarsLanguageSkillsSpecflow.StepDefinitions
         [Then(@"Verify skill record is deleted")]
         public void thenVerifskillrecordisdeleted()
         {
-            _skillFeatureObj.VerifySkillDeleted("Dancing");
+            _skillFeatureObj.VerifySkillDeleted("Cooking");
         }
     }
 }
